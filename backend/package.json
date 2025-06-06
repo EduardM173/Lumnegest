@@ -3,13 +3,8 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    // Para desarrollo local: sigue utilizando ts-node-dev
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-
-    // Para compilar todo a JavaScript puro en /dist
     "build": "tsc -p .",
-
-    // Comando que Render ejecutará en producción
     "start": "node dist/server.js"
   },
   "keywords": [],
