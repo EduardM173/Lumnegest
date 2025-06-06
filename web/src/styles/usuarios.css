@@ -1,0 +1,70 @@
+/* web/src/styles/usuarios.css */
+
+:root {
+  --color-text: #3A4A58;
+  --color-accent: #6C4F4B;
+  --color-highlight: #B59F6B;
+  --color-bg: #F2EFEA;
+  --color-border: #CED2D4;
+}
+
+.usuarios-container {
+  padding: 1rem;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+.usuarios-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-highlight);
+}
+
+.usuarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.usuarios-table th,
+.usuarios-table td {
+  border: 1px solid var(--color-border);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 0.875rem;
+}
+
+.usuarios-table thead {
+  background-color: var(--color-border);
+}
+
+.usuarios-table tbody tr:nth-child(even) {
+  background-color: var(--color-bg);
+}
+
+.usuarios-table tbody tr:hover {
+  background-color: var(--color-border);
+}
+
+.usuarios-btn {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-accent);
+  background-color: transparent;
+  color: var(--color-accent);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.usuarios-btn:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}

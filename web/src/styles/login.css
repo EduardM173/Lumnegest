@@ -1,0 +1,166 @@
+/* web/src/styles/login.css */
+
+/* 1. Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&family=Playfair+Display:wght@700&display=swap');
+
+/* 2. Variables */
+:root {
+  --color-bg: #F2EFEA;
+  --color-card: #FFFFFF;
+  --color-primary: #6C4F4B;
+  --color-secondary: #B59F6B;
+  --color-input-bg: #EDEDED;
+  --color-text: #3A4A58;
+  --font-base: 'Inter', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+}
+
+/* 3. Fondo y tipografía general */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-base);
+  background-color: var(--color-bg);
+}
+
+/* 4. Página login */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+/* 5. Tarjeta */
+.login-card {
+  background: var(--color-card);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+}
+
+/* 6. Título */
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* 7. Inputs */
+.login-input {
+  margin-bottom: 2rem;
+}
+
+.login-input .MuiOutlinedInput-root {
+  background-color: var(--color-input-bg);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.login-input .MuiOutlinedInput-notchedOutline {
+  border: 1px solid transparent;
+}
+
+.login-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border: 1.5px solid var(--color-primary);
+}
+
+.login-input .MuiInputLabel-root {
+  font-family: var(--font-base);
+  font-weight: 400;
+  color: var(--color-primary);
+  transform: translate(14px, 14px) scale(1);
+  transition: all 0.2s ease;
+  background: transparent;
+  padding: 0 4px;
+}
+
+.login-input .MuiInputLabel-root.Mui-focused,
+.login-input .MuiInputLabel-root.MuiFormLabel-filled {
+  transform: translate(12px, -10px) scale(0.85);
+  background-color: var(--color-card);
+  padding: 0 6px;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.login-input .MuiInputBase-input {
+  font-family: var(--font-base);
+  font-weight: 300;
+  color: var(--color-text);
+  padding: 20px 14px 8px;
+}
+
+/* 8. Botón */
+.login-button {
+  background-color: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-transform: none;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.login-button:hover {
+  background-color: #5a3e3b;
+}
+
+/* 9. Links */
+.login-footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.login-link {
+  font-family: var(--font-base);
+  font-weight: 300;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* 10. Responsive */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .login-footer {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+/* Aplica centrado vertical SOLO al body en la ruta /login */
+body.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}

@@ -1,0 +1,113 @@
+/* web/src/styles/auditoria.css */
+
+/* 1. Importar Bootstrap y Google Fonts */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600&family=Playfair+Display:wght@700&display=swap');
+
+/* 2. Variables de tema */
+:root {
+  --bg-page:       #F2EFEA;
+  --card-bg:       #FFFFFF;
+  --color-primary: #6C4F4B;
+  --color-accent:  #B59F6B;
+  --color-text:    #3A4A58;
+  --font-sans:     'Inter', sans-serif;
+  --font-serif:    'Playfair Display', serif;
+}
+
+/* 3. Layout general de auditorías */
+.audit-page {
+  background-color: var(--bg-page);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
+
+/* 4. Título */
+.audit-page .page-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* 5. Filtros */
+.audit-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.audit-filters .form-select,
+.audit-filters .form-control {
+  border-radius: 0.75rem;
+  background-color: var(--card-bg);
+  border: 1px solid transparent;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.audit-filters .form-select:focus,
+.audit-filters .form-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: none;
+}
+
+/* 6. Tarjeta de la tabla (DataGrid wrapper) */
+.audit-table-container {
+  background-color: var(--card-bg);
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.05);
+  padding: 1rem;
+}
+
+/* 7. Encabezados de columna */
+.ag-header-cell-label .ag-header-cell-text,
+.MuiDataGrid-columnHeaderTitle {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* 8. Celdas */
+.ag-cell,
+.MuiDataGrid-cell {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+/* 9. Pre formateado dentro de celdas de cambios */
+.ag-cell pre,
+.MuiDataGrid-cell pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+/* 10. Indicador de carga */
+.audit-table-container .MuiCircularProgress-root {
+  margin: 2rem auto;
+  display: block;
+}
+
+/* 11. Paginación */
+.MuiDataGrid-pagination,
+.ag-paging-panel {
+  justify-content: center;
+  padding: 0.5rem;
+  font-family: var(--font-sans);
+}
+
+/* 12. Responsive */
+@media (max-width: 768px) {
+  .audit-filters {
+    flex-direction: column;
+  }
+}

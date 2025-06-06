@@ -1,0 +1,24 @@
+/* web/src/styles/checkout.css */
+
+/* Contenedor principal de la animación, para centrarla en pantalla */
+.checkout-animation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Tamaño de la animación Lottie (ajusta según tu JSON) */
+.checkout-lottie {
+  width: 250px;
+  height: 250px;
+  margin-bottom: 1rem;
+}
+
+/* Texto debajo de la animación */
+.checkout-anim-text {
+  font-family: "Source Sans Pro", sans-serif;
+  color: #3a4a58;
+  text-align: center;
+}

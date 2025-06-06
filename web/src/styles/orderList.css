@@ -1,0 +1,76 @@
+/* web/src/styles/orderList.css */
+
+:root {
+  /* Colores base */
+  --color-marron: #6C4F4B;
+  --color-gris-claro: #CED2D4;
+  --color-dorado: #B59F6B;
+  --color-crema: #F2EFEA;
+  --color-azul-gris: #3A4A58;
+
+  /* Tipografías */
+  --font-titulo: 'Playfair Display', serif;
+  --font-subtitulo: 'Merriweather', serif;
+  --font-texto: 'Source Sans Pro', sans-serif;
+}
+
+/* Loader centrado */
+.orderlist-loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Tabla */
+.orderlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-crema);
+  font-family: var(--font-texto);
+  color: var(--color-azul-gris);
+}
+
+.orderlist-table th,
+.orderlist-table td {
+  border: 1px solid var(--color-gris-claro);
+  padding: 0.75rem;
+}
+
+.orderlist-table th {
+  background-color: var(--color-gris-claro);
+  font-weight: 600;
+  font-family: var(--font-subtitulo);
+  color: var(--color-azul-gris);
+}
+
+.orderlist-table tr:nth-child(even) {
+  background-color: #ffffff; /* fila par ligeramente más clara */
+}
+
+.orderlist-table tr:nth-child(odd) {
+  background-color: var(--color-crema); /* crema suave */
+}
+
+.orderlist-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Tabla: celdas de acciones: centrado vertical */
+.orderlist-table td:last-child {
+  vertical-align: middle;
+}
+
+/* Paginación de MUI: ajustar colores */
+.MuiTablePagination-root {
+  font-family: var(--font-texto);
+  color: var(--color-azul-gris);
+}
+
+.MuiTablePagination-selectLabel,
+.MuiTablePagination-displayedRows {
+  color: var(--color-azul-gris);
+}
+
+.MuiTablePagination-iconButton .MuiSvgIcon-root {
+  color: var(--color-azul-gris);
+}

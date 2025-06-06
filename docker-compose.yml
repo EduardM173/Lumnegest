@@ -1,0 +1,39 @@
+# Aquí coloca tu configuración de docker-compose
+services:
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: LumenGest
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: backend.Dockerfile
+    restart: always
+    environment:
+      DATABASE_URL: "postgresql://postgres:1234@host.docker.internal:5432/LumenGest"
+      JWT_SECRET: "TuClaveSecretaMuySegura"
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+
+  web:
+    build:
+      context: ./web
+      dockerfile: web.Dockerfile
+    restart: always
+    ports:
+      - "80:80"  # o el puerto deseado
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

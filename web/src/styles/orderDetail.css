@@ -1,0 +1,48 @@
+/* web/src/styles/orderDetail.css */
+
+:root {
+  --color-marron: #6C4F4B;
+  --color-gris-claro: #CED2D4;
+  --color-dorado: #B59F6B;
+  --color-crema: #F2EFEA;
+  --color-azul-gris: #3A4A58;
+
+  --font-titulo: 'Playfair Display', serif;
+  --font-subtitulo: 'Merriweather', serif;
+  --font-texto: 'Source Sans Pro', sans-serif;
+}
+
+.orderdetail-loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.orderdetail-paper {
+  background-color: #ffffff;
+  font-family: var(--font-texto);
+  color: var(--color-azul-gris);
+}
+
+.orderdetail-label {
+  font-family: var(--font-subtitulo);
+  font-size: 16px;
+  color: var(--color-marron);
+  margin-bottom: 0.25rem;
+}
+
+.orderdetail-estado {
+  font-family: var(--font-subtitulo);
+  font-size: 16px;
+  color: var(--color-azul-gris);
+  font-weight: 600;
+}
+
+/* Espaciados internos y estéticas generales */
+.orderdetail-paper .MuiTypography-root {
+  color: var(--color-azul-gris);
+}
+
+.orderdetail-paper .MuiGrid-container {
+  margin-top: 1rem;
+}

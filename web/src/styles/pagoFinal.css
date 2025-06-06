@@ -1,0 +1,223 @@
+/* ------------------------- TIPOGRAFÍAS ------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Merriweather:wght@600&family=Source+Sans+Pro:wght@400&display=swap');
+
+/* ------------------------- PALETA ------------------------------ */
+:root {
+  --color-brown:        #6C4F4B;
+  --color-light-gray:   #CED2D4;
+  --color-gold:         #B59F6B;
+  --color-off-white:    #F2EFEA;
+  --color-dark-blue:    #3A4A58;
+  --color-selected-bg:  #4A5A68;   /* fondo ligeramente más claro al seleccionar */
+}
+
+/* ------------------------- CONTENEDOR PRINCIPAL ----------------- */
+.pago-final {
+  max-width: 1000px;      /* Dejamos un ancho mayor para caber ambas columnas */
+  margin: 2.5rem auto;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--color-dark-blue);
+  padding: 0 1rem;
+}
+
+/* ------------------------- TÍTULOS ----------------------------- */
+.pago-final h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-bottom: 0.25rem;
+}
+
+.pago-final .sub {
+  font-family: 'Merriweather', serif;
+  font-weight: 600;
+  color: var(--color-brown);
+  margin-bottom: 1rem;
+}
+
+/* ------------------ CONTENEDOR DE DOS COLUMNAS ----------------- */
+.pago-columns {
+  display: flex;
+  gap: 2rem;
+}
+
+/* ----------- COLUMNA IZQUIERDA: métodos + formulario ----------- */
+.pago-col-left {
+  flex: 2; /* Ocupa dos tercios del ancho disponible */
+}
+
+/* ----------- COLUMNA DERECHA: resumen de servicios ------------ */
+.pago-col-right {
+  flex: 1; /* Ocupa un tercio del ancho disponible */
+  background: #fff;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.pago-col-right h6 {
+  font-family: 'Merriweather', serif;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* ----------- TARJETAS DE RESUMEN DE CADA SERVICIO ------------ */
+.resumen-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.resumen-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 0.75rem;
+}
+
+.resumen-info {
+  padding: 0;
+}
+
+.resumen-nombre {
+  font-family: 'Merriweather', serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.resumen-subtotal {
+  font-size: 0.9rem;
+  color: var(--color-dark-blue);
+}
+
+/* ------------------------- LISTA DE MÉTODOS -------------------- */
+.metodo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+/* UNA TARJETA DE MÉTODO DE PAGO */
+.metodo-item {
+  display: flex;
+  align-items: center;
+  background: var(--color-dark-blue);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  color: var(--color-off-white);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Cuando el método está activo, fondo un poco más claro y borde dorado */
+.metodo-item.active {
+  background: var(--color-selected-bg);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 2px rgba(181, 159, 107, 0.35);
+}
+
+.metodo-item:hover {
+  background: #45586a;
+}
+
+/* Icono o logo (usa <img> o cualquier elemento con .icon) */
+.metodo-item img,
+.metodo-item .icon {
+  width: 56px;
+  height: 36px;
+  object-fit: contain;
+  margin-right: 1rem;
+}
+
+/* Nombre del método + descripción opcional */
+.metodo-item .label {
+  font-family: 'Merriweather', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* ------------------- FORMULARIO DE TARJETA -------------------- */
+/* El propio formulario en sí no necesita estilos especiales, 
+   ya que Material-UI lo formatea. Sólo un margen extra abajo: */
+.tarjeta-form {
+  margin-top: 0.5rem;
+  margin-left: 1rem;    /* ligero sangrado para “colgar” del botón Tarjeta */
+  padding-left: 0.5rem; /* un poco de espacio para separar de la lista */
+  border-left: 3px solid var(--color-gold);
+}
+
+/* Ajuste de helper text de Material-UI */
+.pago-col-left .MuiFormHelperText-root {
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+/* ------------------------- BOTONES ----------------------------- */
+.pago-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.pago-actions .MuiButton-containedPrimary {
+  background: var(--color-gold);
+  color: var(--color-off-white);
+  font-weight: 600;
+}
+
+.pago-actions .MuiButton-containedPrimary:hover {
+  background: #d0ba82;
+}
+
+.pago-actions .MuiButton-text {
+  color: var(--color-dark-blue);
+}
+
+/* ------------------------- ALERTAS ----------------------------- */
+.pago-final .MuiAlert-root {
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* ------------------------ BREAKPOINTS -------------------------- */
+@media (max-width: 1024px) {
+  .pago-columns {
+    flex-direction: column;
+  }
+  .pago-col-left,
+  .pago-col-right {
+    flex: none;
+    width: 100%;
+  }
+  .resumen-img {
+    width: 48px;
+    height: 48px;
+  }
+  .metodo-item {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pago-final {
+    margin: 2rem 1rem;
+  }
+  .resumen-img {
+    width: 40px;
+    height: 40px;
+  }
+  .metodo-item {
+    padding: 0.5rem 0.75rem;
+  }
+}

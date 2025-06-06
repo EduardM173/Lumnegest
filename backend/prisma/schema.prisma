@@ -1,0 +1,297 @@
+  generator client {
+    provider = "prisma-client-js"
+  }
+
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
+
+  enum EstadoPago {
+    PENDIENTE
+    CONFIRMADO
+    RECHAZADO
+    DEVOLUCION
+    PAGADO
+  }
+
+
+  model auditoria {
+    id           BigInt   @id @default(autoincrement())
+    usuario_id   BigInt?
+    tabla        String   @db.VarChar(60)
+    operacion    String   @db.VarChar(10)
+    registro_id  BigInt
+    antes        Json?
+    despues      Json?
+    realizado_en DateTime @default(now()) @db.Timestamptz(6)
+    usuario      usuario? @relation(fields: [usuario_id], references: [id], onUpdate: NoAction)
+
+    @@index([tabla], map: "idx_auditoria_tabla")
+    @@index([usuario_id], map: "idx_auditoria_usuario")
+  }
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model condolencia {
+    id           BigInt    @id @default(autoincrement())
+    obituario_id BigInt
+    autor_id     BigInt
+    mensaje      String
+    imagen_url   String?
+    estado       String    @default("PENDIENTE") @db.VarChar(10)
+    creado_en    DateTime  @default(now()) @db.Timestamptz(6)
+    usuario      usuario   @relation(fields: [autor_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+    obituario    obituario @relation(fields: [obituario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+    @@index([estado], map: "idx_condolencia_estado")
+    @@index([obituario_id], map: "idx_condolencia_obituario")
+  }
+
+  model difunto {
+    id                    BigInt   @id @default(autoincrement())
+    orden_id              BigInt
+    nombres               String   @db.VarChar(100)
+    fecha_fallecido       DateTime @db.Date
+    lugar_fallecimiento   String?  @db.VarChar(150)
+    contacto_responsable  String?  @db.VarChar(100)
+    relacion_solicitante  String?  @db.VarChar(50)
+    notas                 String?  
+    orden                 orden    @relation(fields: [orden_id], references: [id], onDelete: Cascade)
+
+    @@index([orden_id], map: "idx_difunto_orden")
+  }
+
+
+  model email_verificacion {
+    usuario_id BigInt   @id
+    creado_en  DateTime @default(now()) @db.Timestamptz(6)
+    expiracion DateTime @default(dbgenerated("(now() + '1 day'::interval)")) @db.Timestamptz(6)
+    token      String   @db.VarChar(36)
+    usuario    usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+    @@index([token], map: "idx_email_verificacion_token")
+  }
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model evaluacion {
+    id         BigInt   @id @default(autoincrement())
+    cliente_id BigInt?
+    puntuacion Int
+    comentario String?
+    creado_en  DateTime @default(now()) @db.Timestamptz(6)
+    usuario    usuario? @relation(fields: [cliente_id], references: [id], onUpdate: NoAction)
+
+    @@index([cliente_id], map: "idx_evaluacion_cliente")
+  }
+
+  model faq {
+    id        BigInt @id @default(autoincrement())
+    pregunta  String
+    respuesta String
+  }
+
+  model importacion_csv {
+    id              BigInt   @id @default(autoincrement())
+    admin_id        BigInt
+    archivo_nombre  String   @db.VarChar(180)
+    total_registros Int      @default(0)
+    exitosos        Int      @default(0)
+    con_errores     Int      @default(0)
+    ejecutado_en    DateTime @default(now()) @db.Timestamptz(6)
+    usuario         usuario  @relation(fields: [admin_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+    @@index([admin_id], map: "idx_import_admin")
+  }
+
+  model notificacion {
+    id         BigInt   @id @default(autoincrement())
+    usuario_id BigInt
+    asunto     String   @db.VarChar(120)
+    cuerpo     String
+    leida      Boolean  @default(false)
+    enviado_en DateTime @default(now()) @db.Timestamptz(6)
+    usuario    usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+    @@index([usuario_id], map: "idx_notificacion_usuario")
+  }
+
+  model obituario {
+    id             BigInt        @id @default(autoincrement())
+    orden_id       BigInt
+    titulo         String        @db.VarChar(150)
+    mensaje        String?
+    url_slug       String        @unique @db.VarChar(160)
+    imagen_url     String?
+    publicado      Boolean       @default(false)
+    creado_en      DateTime      @default(now()) @db.Timestamptz(6)
+    actualizado_en DateTime      @default(now()) @db.Timestamptz(6)
+    condolencia    condolencia[]
+    orden          orden         @relation(fields: [orden_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+    @@index([url_slug], map: "idx_obituario_slug")
+  }
+
+
+
+  model orden {
+    id                                 BigInt      @id @default(autoincrement())
+    cliente_id                         BigInt
+    operador_id                        BigInt?
+    estado                             EstadoPago  @default(PENDIENTE)
+    total                              Decimal     @default(0) @db.Decimal(12, 2)
+    creado_en                          DateTime    @default(now()) @db.Timestamptz(6)
+    actualizado_en                     DateTime    @default(now()) @db.Timestamptz(6)
+
+    // Timestamps para cada paso
+    aprobado_en                        DateTime?   @db.Timestamptz(6)
+    pagado_en                          DateTime?   @db.Timestamptz(6)
+    completado_en                      DateTime?   @db.Timestamptz(6)
+
+    // Motivo de rechazo (si aplica)
+    motivo_rechazo                     String?     @db.VarChar(200)
+
+    // Si necesitas facturar, datos extra
+    direccion_facturacion              String?     @db.VarChar(200)
+    rif_empresa                        String?     @db.VarChar(20)
+
+    // Tipo de servicio (entierro, cremación, traslado, etc.)
+    tipo_servicio                      String      @db.VarChar(20) @default("ENTIERRO")
+
+    difunto                            difunto[]
+    obituario                          obituario[]
+    usuario_orden_cliente_idTousuario  usuario     @relation("orden_cliente_idTousuario", fields: [cliente_id], references: [id])
+    usuario_orden_operador_idTousuario usuario?    @relation("orden_operador_idTousuario", fields: [operador_id], references: [id])
+    orden_detalle                      orden_detalle[]
+    pago                               pago[]
+
+    @@index([cliente_id], map: "idx_orden_cliente")
+    @@index([operador_id], map: "idx_orden_operador")
+  }
+
+
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model orden_detalle {
+    id              BigInt   @id @default(autoincrement())
+    orden_id        BigInt
+    servicio_id     BigInt
+    descripcion_srv String?
+    precio_unitario Decimal  @db.Decimal(12, 2)
+    cantidad        Int      @default(1)
+    subtotal        Decimal  @db.Decimal(12, 2)
+    orden           orden    @relation(fields: [orden_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+    servicio        servicio @relation(fields: [servicio_id], references: [id], onUpdate: NoAction)
+    descuento Decimal @db.Decimal(12,2) @default(0)
+
+
+    @@index([orden_id], map: "idx_detalle_orden")
+  }
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model pago {
+    id               BigInt       @id @default(autoincrement())
+    orden_id         BigInt
+    monto            Decimal      @db.Decimal(12, 2)
+    metodo           String       @db.VarChar(15)
+    estado           EstadoPago   @default(PENDIENTE)        // Ahora usa el enum
+    referencia       String?      @db.VarChar(120)
+    detalles_gateway Json?                                 // Nuevo campo JSON
+    pagado_en        DateTime     @default(now()) @db.Timestamptz(6)
+    orden            orden        @relation(fields: [orden_id], references: [id], onUpdate: NoAction)
+
+    @@index([orden_id], map: "idx_pago_orden")
+  }
+
+
+
+  model password_reset {
+    id         BigInt   @id @default(autoincrement())
+    usuario_id BigInt
+    token      String   @db.VarChar(36)
+    creado_en  DateTime @default(now()) @db.Timestamptz(6)
+    expiracion DateTime @default(dbgenerated("(now() + '01:00:00'::interval)")) @db.Timestamptz(6)
+    usuario    usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+    @@index([token], map: "idx_password_reset_token")
+  }
+
+  model perfil_admin {
+    usuario_id      BigInt  @id
+    nombre_completo String  @db.VarChar(160)
+    usuario         usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  }
+
+  model perfil_cliente {
+    usuario_id BigInt  @id
+    nombres    String  @db.VarChar(80)
+    apellidos  String  @db.VarChar(80)
+    telefono   String? @db.VarChar(20)
+    direccion  String?
+    usuario    usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  }
+
+  model perfil_operador {
+    usuario_id BigInt  @id
+    nombres    String  @db.VarChar(80)
+    ci         String  @db.VarChar(20)
+    cargo      String  @db.VarChar(60)
+    telefono   String? @db.VarChar(20)
+    usuario    usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  }
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model recurso_ayuda {
+    id        BigInt @id @default(autoincrement())
+    titulo    String @db.VarChar(120)
+    contenido String
+    tipo      String @db.VarChar(10)
+  }
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model servicio {
+    id             BigInt          @id @default(autoincrement())
+    nombre         String          @db.VarChar(100)
+    descripcion    String?
+    precio_base    Decimal         @db.Decimal(12, 2)
+    activo         Boolean         @default(true)
+    creado_en      DateTime        @default(now()) @db.Timestamptz(6)
+    actualizado_en DateTime        @default(now()) @db.Timestamptz(6)
+    categoria_id   Int?
+    imagenUrl      String?         @db.VarChar(255)
+    orden_detalle  orden_detalle[]
+    categoria      categoria?      @relation(fields: [categoria_id], references: [id], onUpdate: NoAction, map: "fk_servicio_categoria")
+
+    @@index([nombre], map: "idx_servicio_nombre")
+  }
+
+
+  /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+  model usuario {
+    id                               BigInt              @id @default(autoincrement())
+    nombre_usuario                   String              @unique @db.VarChar(32)
+    email                            String              @unique @db.VarChar(120)
+    password_hash                    String
+    rol                              String              @db.VarChar(15)
+    estado                           String              @default("ACTIVO") @db.VarChar(10)
+    creado_en                        DateTime            @default(now()) @db.Timestamptz(6)
+    actualizado_en                   DateTime            @default(now()) @db.Timestamptz(6)
+    auditoria                        auditoria[]
+    condolencia                      condolencia[]
+    email_verificacion               email_verificacion?
+    evaluacion                       evaluacion[]
+    importacion_csv                  importacion_csv[]
+    notificacion                     notificacion[]
+    orden_orden_cliente_idTousuario  orden[]             @relation("orden_cliente_idTousuario")
+    orden_orden_operador_idTousuario orden[]             @relation("orden_operador_idTousuario")
+    password_reset                   password_reset[]
+    perfil_admin                     perfil_admin?
+    perfil_cliente                   perfil_cliente?
+    perfil_operador                  perfil_operador?
+  }
+
+  model categoria {
+    id        Int        @id @default(autoincrement())
+    nombre    String     @unique @db.VarChar(100)
+    imagenUrl String?    @db.VarChar(255)    // ← Nuevo campo para la URL de la imagen
+    servicio  servicio[]
+  }
