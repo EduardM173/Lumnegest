@@ -1,11 +1,15 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    // Para desarrollo local: sigue utilizando ts-node-dev
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+
+    // Para compilar todo a JavaScript puro en /dist
     "build": "tsc -p .",
+
+    // Comando que Render ejecutará en producción
     "start": "node dist/server.js"
   },
   "keywords": [],
